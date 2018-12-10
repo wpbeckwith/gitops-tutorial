@@ -4,16 +4,19 @@ Kubecon Seattle 2018 Gitops Tutorial
 
 XXX: about, slides, weaveworks, brice
 
+- [Slides](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
+
 Prerequisites
 -------------
 
 ### A Kubernetes cluster
 
-In order to conplete this tutorial, you will need a test kubernetes cluster. You have several options to quikcly get a development cluster to test out Gitops
+In order to conplete this tutorial, you will need a test kubernetes cluster. You have several options to quikcly get a development cluster to test out Gitops.
 
-1. Run [Minikube]() locally. This will require you to have [Virtualbox]() installed. This is great if you have virtualbox installed, but the download is over 2GB. See the [setup isntructions for Minikube](docs/minikube-install.md).
-2. Use [Google Kubernetes Engine](). You'll need to have a google cloud instance set up to do this, and it will cost you a small amount to keep your cluster running. See the [setup instructions for GKE](docs/gke-install.md)
-3. Set up a cluster on [DigitalOcean](). This will also cost you a little to keep your cluster running. You can follow the [setup instructions for Digital Ocean](docs/digitalocean-install.md) to do this.
+1. Use [Katacoda's Kubernetes playground](https://www.katacoda.com/courses/kubernetes/playground). This will allow you to access a small Kubernetes cluster on demand. The `kubectl` command line is set up by default and should be used from the master node.
+2. Run [Minikube](https://github.com/kubernetes/minikube) locally. This will require you to have [Virtualbox](https://www.virtualbox.org/) or some other hypervisor installed. This is great if you have virtualbox installed, but the download is over 2GB. See the [setup instructions for Minikube](docs/minikube-install.md).
+3. Use [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/). You'll need to have a google cloud account set up to do this, and it will cost you a small amount to keep your cluster running. See the [setup instructions for GKE](docs/gke-install.md)
+
 
 You may have another way of getting a kubernetes cluster up and running. If that's the case, great! This tutorial should work with any valid kubernetes installation. 
 
@@ -23,16 +26,22 @@ Before you begin, you should make sure you have configured the `kubectl` command
 ➤ kubectl get pods --all-namespaces
 ```
 
-To get a listing of all the running pod on your cluster. If this command completes succesfully, you're ready to go onto the next step.
+To get a listing of all the running pod on your cluster, or
+
+```
+➤ kubectl cluster-info
+```
+
+to get a quick status check on your cluster. If these commands complete succesfully, you're ready to go onto the next step.
 
 ### A github or bitbucket account
-
+You'll want to clone repositories for this workshop and make them available from your cluster through a git URL. If you're using Bitbucket, make sure you have [SSH keys enabled](https://confluence.atlassian.com/bitbucketserver/enabling-ssh-access-to-git-repositories-in-bitbucket-server-776640358.html) as we'll need these to configure the deploy operator access. 
 
 Getting started with Gitops
 ---------------------------
 
 ### 1. Clone this repository 
-in order to control the operation of your cluster using gitops, you'll need to 
+In order to control the operation of your cluster using gitops, you'll need to have a control repository in which the state of your cluster can be defined. This repository is set up with all the files you'll need to follow along this tutorial. 
 
 ### 2. Install the flux operator on your cluster
 
@@ -76,4 +85,18 @@ Now you're done with this tutorial, make sure you delete your cluster so you don
 
 - [Teardown instructions for Minikube](docs/minikube-teardown.md)
 - [Teardown instructions for GKE](docs/gke-teardown.md)
-- [Teardown instructions for DigitalOcean](digitalocean-teardown.md)
+
+Further resources
+-----------------
+
+You can find much more about Gitops online.
+
+- 📄 The [original blog post](https://www.weave.works/blog/gitops-operations-by-pull-request)
+- 📄 A [more recent follow up blog post](https://www.weave.works/blog/what-is-gitops-really)
+- 📄 A [Comprehensive Gitops Primer](https://www.weave.works/technologies/gitops/)
+- 📄 The [Gitops FAQ](https://www.weave.works/technologies/gitops-frequently-asked-questions/)
+- 🎥 A [recorded presentation on Gitops and its implementation at Weaveworks](https://vimeo.com/293138562/5aa199fa9e)
+
+
+
+
