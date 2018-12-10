@@ -39,42 +39,103 @@ To get a listing of all the running pod on your cluster, or
 To get a quick status check on your cluster. If these commands complete succesfully, you're ready to go onto the next step.
 
 ### 2. A Github or Bitbucket account
-You'll want to create anew repository for this tutorial and make it available from your cluster through a git URL. If you're using Bitbucket, make sure you have [SSH keys enabled](https://confluence.atlassian.com/bitbucketserver/enabling-ssh-access-to-git-repositories-in-bitbucket-server-776640358.html) as we'll need these to configure the deploy operator access. 
+You'll want to create a new repository for this tutorial and make it available from your cluster through a git URL. If you're using Bitbucket, make sure you have [SSH keys enabled](https://confluence.atlassian.com/bitbucketserver/enabling-ssh-access-to-git-repositories-in-bitbucket-server-776640358.html) as we'll need these to configure the deploy operator access. 
+
+Of course, you can also configure the Flux operator to [use a private git host](https://github.com/weaveworks/flux/blob/master/site/standalone-setup.md#using-a-private-git-host), but configuring this is outside the scope of this introductory tutorial.
 
 Getting started with Gitops
 ---------------------------
 
-### 1. Clone this repository 
-In order to control the operation of your cluster using gitops, you'll need to have a control repository in which the state of your cluster can be defined. This repository is set up with all the files you'll need to follow along this tutorial. Clone/Fork it to your Bitbucket or github account. 
+### 1. Fork & Clone this repository 
+In order to control the operation of your cluster using gitops, you'll need to have a control repository in which the state of your cluster can be defined. `github.com/bricef/gitops-tutorial` is already set up with all the files you'll need to follow along. Fork it to your Bitbucket or github account. When you have your own remote repository, clone it to your local workspace:
+
+```
+➤ git clone <url of your forked repository>
+```
+
 
 ### 2. Install the flux operator on your cluster
 Now that you have a repository set up, it's time to install the deployment operators on your cluster. For this we'll use Weavework's [Flux](https://github.com/weaveworks/flux). 
 
 The needed deployment manifests are kept in this repository's `flux` directory. 
 
-### 3. Configure the operator to read from your repository
-- Add deploy keys with github repo
+If you have `kubectl` configured correctly, you'll be able to install the Flux operator by applying the manifests to your cluster:
+
+```
+➤ cd gitops-tutorial
+➤ kubectl apply -f ./flux/
+```
+
+You should see that this will create several objects in your cluster
+
+```
+serviceaccount/flux created
+clusterrole.rbac.authorization.k8s.io/flux created
+clusterrolebinding.rbac.authorization.k8s.io/flux created
+deployment.apps/flux created
+secret/flux-git-deploy created
+deployment.apps/memcached created
+service/memcached created
+```
+
+Alongside flux, we have also installed a memcache service for flux to use, and appropriate permissions for the flux operator to act on the cluster itself through a role and rolebinding. 
+
+You should now be able to see the flux pod running in the cluster:
+
+```
+➤ kubectl get pods
+NAME                        READY     STATUS    RESTARTS   AGE
+flux-9d69f6fc4-5t5w6        1/1       Running   0          18m
+memcached-dbb59cb58-phk9s   1/1       Running   0          18m
+```
+
+Now that the operator is running in your cluster, we'll need to configure it to have access to your repository, so that it can read changes you make, as well as create commits when a service is automatically deployed.
+
+To do this, we'll need to do two things. Firstly, we'll need to allow the flux operator to act on the repository; secondly, we'll need the flux operator to be configured to look for cluster configuration in a particular repository.
+
+### 3. Sharing the operator's public key with the remote git repository
+To allow flux to operate on the repository, we'll need to copy its public SSH key to Github or Bitbucket. 
+
+We can get the operator's public key using the [fluxctl](https://github.com/weaveworks/flux/blob/master/site/fluxctl.md) tool.
+
+First, we'll need to install the `fluxctl` tool. There are [different ways of installing it](https://github.com/weaveworks/flux/blob/master/site/fluxctl.md#installing-fluxctl) depending on your platoform. For this tutorial, we can grab the binary release directly.
+
+```
+➤ wget https://github.com/weaveworks/flux/releases/download/1.8.1/fluxctl_linux_amd64
+➤ chmod +x fluxctl_linux_amd64
+```
+
+Once installed and executable, we can use the fluxctl command line tool to get the Flux operator's public key:
+
+```
+➤ fluxctl_linux_amd64 identity
+```
+
+XXX: HERE
+
+
+### 4. Configure the operator to read from your repository
 - Configure the deploy operator to point to your cloned repository, to the `deploy/kubernetes` folder
 
 
-### 4. Add a yaml file 
+### 5. Add a yaml file 
 Now that the operator is set up to react to changes in your repository's `deploy/kubernetes` directory, we need to provide it with some configuration for it to synchronise.
 
-### 5. Manually delete a deployment
+### 6. Manually delete a deployment
 Now that we know that the gitops operator is running in your cluster, let's check the control group 
 
-### 6. Modify the configuration and commit your changes
+### 7. Modify the configuration and commit your changes
 - look at number of running pod for service
 - scale up deployment in the yaml
 - commit
 - watch the cluster for the change
 
-### 7. Automate deployment
+### 8. Automate deployment
 - look at version of deployment
 - add automation annotation
 - watch to see the cluster update to latest version
 
-### 6. Bonus: Deploy monitoring in a gitops way
+### 9. Bonus: Deploy monitoring in a gitops way
 - copy the monitoring folder yamls
 - Look at the exposed service for grafana
 - modify the dashboard script to add a new dashboard
