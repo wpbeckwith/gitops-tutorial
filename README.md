@@ -4,7 +4,7 @@ Kubecon Seattle 2018 Gitops Tutorial
 
 XXX: about, slides, weaveworks, brice
 
-- [Slides](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
+[![](../resources/presenttation.png)](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
 
 Prerequisites
 -------------
@@ -91,9 +91,9 @@ Further resources
 
 You can find much more about Gitops online.
 
-- 📄 The [original blog post](https://www.weave.works/blog/gitops-operations-by-pull-request)
+- 📄 The [original Gitops blog post](https://www.weave.works/blog/gitops-operations-by-pull-request)
 - 📄 A [more recent follow up blog post](https://www.weave.works/blog/what-is-gitops-really)
-- 📄 A [Comprehensive Gitops Primer](https://www.weave.works/technologies/gitops/)
+- 📄 A [comprehensive Gitops primer](https://www.weave.works/technologies/gitops/)
 - 📄 The [Gitops FAQ](https://www.weave.works/technologies/gitops-frequently-asked-questions/)
 - 🎥 A [recorded presentation on Gitops and its implementation at Weaveworks](https://vimeo.com/293138562/5aa199fa9e)
 
