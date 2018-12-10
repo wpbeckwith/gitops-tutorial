@@ -4,7 +4,7 @@ Kubecon Seattle 2018 Gitops Tutorial
 
 XXX: about, slides, weaveworks, brice
 
-[![](../resources/presenttation.png)](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
+[![](../resources/presentation.png)](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
 
 Prerequisites
 -------------
