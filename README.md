@@ -1,26 +1,30 @@
 Kubecon Seattle 2018 Gitops Tutorial
 ====================================
 
+This repository contains the hands-on Gitops tutorial given at Kubecon 2018 in Seattle. You can find the slides by clicking the image below. Follow the tutorial by reading through this README.
 
-XXX: about, slides, weaveworks, brice
+If you see errors, mistakes or typos in this tutorial, please feel free to submit a pull request.
 
 [![](resources/presentation.png?raw=true)](https://docs.google.com/presentation/d/1ujRd4k2s8dG0-AMHIWMTyA8JoTUkXRQwXQ4izmDWeTI/edit?usp=sharing)
 
 Prerequisites
 -------------
 
-### A Kubernetes cluster
+In order to go through this tutorial, you'll need two things.
 
-In order to conplete this tutorial, you will need a test kubernetes cluster. You have several options to quikcly get a development cluster to test out Gitops.
+### 1. A Kubernetes cluster
 
-1. Use [Katacoda's Kubernetes playground](https://www.katacoda.com/courses/kubernetes/playground). This will allow you to access a small Kubernetes cluster on demand. The `kubectl` command line is set up by default and should be used from the master node.
+In order to conplete this tutorial, you will need a test kubernetes cluster. You have several options to quickly get a development cluster to test out Gitops.
+
+We will use [Katacoda's Kubernetes playground](https://www.katacoda.com/courses/kubernetes/playground). This will allow you to access a small Kubernetes cluster on demand. The `kubectl` command line is set up by default and should be used from the master node.
+<!--
 2. Run [Minikube](https://github.com/kubernetes/minikube) locally. This will require you to have [Virtualbox](https://www.virtualbox.org/) or some other hypervisor installed. This is great if you have virtualbox installed, but the download is over 2GB. See the [setup instructions for Minikube](docs/minikube-install.md).
 3. Use [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/). You'll need to have a google cloud account set up to do this, and it will cost you a small amount to keep your cluster running. See the [setup instructions for GKE](docs/gke-install.md)
+-->
 
+But you may have another way of getting a kubernetes cluster up and running. If that's the case, great! This tutorial should work with any valid kubernetes installation. 
 
-You may have another way of getting a kubernetes cluster up and running. If that's the case, great! This tutorial should work with any valid kubernetes installation. 
-
-Before you begin, you should make sure you have configured the `kubectl` command to point to your cluster and can query basic information. for example, run
+Before you begin, you should make sure that the `kubectl` command works and you can query basic information from kubernetes. for example, run
 
 ```
 ➤ kubectl get pods --all-namespaces
@@ -32,18 +36,21 @@ To get a listing of all the running pod on your cluster, or
 ➤ kubectl cluster-info
 ```
 
-to get a quick status check on your cluster. If these commands complete succesfully, you're ready to go onto the next step.
+To get a quick status check on your cluster. If these commands complete succesfully, you're ready to go onto the next step.
 
-### A github or bitbucket account
-You'll want to clone repositories for this workshop and make them available from your cluster through a git URL. If you're using Bitbucket, make sure you have [SSH keys enabled](https://confluence.atlassian.com/bitbucketserver/enabling-ssh-access-to-git-repositories-in-bitbucket-server-776640358.html) as we'll need these to configure the deploy operator access. 
+### 2. A Github or Bitbucket account
+You'll want to create anew repository for this tutorial and make it available from your cluster through a git URL. If you're using Bitbucket, make sure you have [SSH keys enabled](https://confluence.atlassian.com/bitbucketserver/enabling-ssh-access-to-git-repositories-in-bitbucket-server-776640358.html) as we'll need these to configure the deploy operator access. 
 
 Getting started with Gitops
 ---------------------------
 
 ### 1. Clone this repository 
-In order to control the operation of your cluster using gitops, you'll need to have a control repository in which the state of your cluster can be defined. This repository is set up with all the files you'll need to follow along this tutorial. 
+In order to control the operation of your cluster using gitops, you'll need to have a control repository in which the state of your cluster can be defined. This repository is set up with all the files you'll need to follow along this tutorial. Clone/Fork it to your Bitbucket or github account. 
 
 ### 2. Install the flux operator on your cluster
+Now that you have a repository set up, it's time to install the deployment operators on your cluster. For this we'll use Weavework's [Flux](https://github.com/weaveworks/flux). 
+
+The needed deployment manifests are kept in this repository's `flux` directory. 
 
 ### 3. Configure the operator to read from your repository
 - Add deploy keys with github repo
